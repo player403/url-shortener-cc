@@ -31,14 +31,15 @@ app.get('/', (req, res) => {
 app.get('/view/:shortURL', async (req, res) => {
     try{
         const entry = await client.getEntryByShortURL(req.params.shortURL);
-        if(entry.expireDate < new Date())
-            console.log("Expired");
+        if(entry.expireDate < new Date()){
+            await client.deleteEntryByShortURL(entry.url);
+            throw Error(`Expired: Deleting entry ${entry.shortURL}`);
+        }
         res.render('view.ejs', {entry: entry});
     }catch (e){
         console.log(e.message);
         res.sendStatus(404);
     }
-    
 });
 
 app.get('/:shortURL', async (req, res) => {
@@ -46,13 +47,15 @@ app.get('/:shortURL', async (req, res) => {
         const entry = await client.getEntryByShortURL(req.params.shortURL);
         if(!entry)
             res.sendStatus(404);
-        if(entry.expireDate < new Date())
-            console.log("Expired");
+        if(entry.expireDate < new Date()){
+            await client.deleteEntryByShortURL(entry.url);
+            throw Error(`Expired: Deleting entry ${entry.shortURL}`);
+        }
         res.redirect(entry.url);
         console.log(`Redirecting ${req.params.shortURL} to ${entry.url}`);
-    }catch(e){
-        console.log(e.message);
+    }catch(e){    
         res.sendStatus(404);
+        console.log(e.message);
     }
 });
 
@@ -60,12 +63,12 @@ app.post('/add', async (req, res) => {
     try{
         //TODO: Check if url (has http)
         const entry = await client.addShortURL(req.body.url, req.body.expireDate === '' ? null : req.body.expireDate);
-        console.log(`Created: ${entry.shortURL} to ${entry.url}`);
         res.redirect(`view/${entry.shortURL}`);
+        console.log(`Created: ${entry.shortURL} to ${entry.url}`);
     }
     catch (e){
-        console.log(e.message);
         res.redirect('/');
+        console.log(e.message);
     }
 });
 
