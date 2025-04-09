@@ -1,7 +1,7 @@
 import express from 'express';
 import ejs from 'ejs';
-import {ShortURLClient} from './lib/db-storage.js';
-import localClient from './lib/local-storage.js';
+import {ShortURLClient} from './lib/postgresql.js';
+import localClient from './lib/local.js';
 import env from 'dotenv';
 
 env.config();
