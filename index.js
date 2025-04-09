@@ -7,7 +7,7 @@ import env from 'dotenv';
 env.config();
 
 var client = new localClient(process.env.SURL_URL_LENGTH);
-if(process.env.SURL_DATA_HANDLER === 'postgreSQL'){
+if(process.env.SURL_DATA_HANDLER === 'PostgreSQL'){
     client = new ShortURLClient({
         user: process.env.SURL_POSTGRESQL_USER, 
         password: process.env.SURL_POSTGRESQL_PASSWORD, 
