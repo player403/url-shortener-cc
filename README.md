@@ -4,7 +4,6 @@ This is a WIP of a URL shortener webservice that manages references to other URL
 ## TODO
 - UI
 - Database unique id generator
-- Delete expired urls
 - Store volatile data into separate file.
 - Clean up
 
