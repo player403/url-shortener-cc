@@ -19,6 +19,7 @@ if(process.env.SURL_DATA_HANDLER === 'PostgreSQL'){
     
 const app = express();
 const port = 8080;
+var lastExpireCheck = new Date();
 
 app.use(express.urlencoded({'extended': true}));
 app.use(express.static('static'));
@@ -60,6 +61,12 @@ app.get('/:shortURL', async (req, res) => {
 });
 
 app.post('/add', async (req, res) => {
+    const now = new Date();
+    if(Math.abs(now - lastExpireCheck) > process.env.SURL_EXPIRE_CHECK_TIMEOUT){
+        lastExpireCheck = now;
+        client.deleteExpired(now);
+        console.log(`Expire Check Timer triggered: Deleting old entries`);
+    }
     try{
         //TODO: Check if url (has http)
         const entry = await client.addShortURL(req.body.url, req.body.expireDate === '' ? null : req.body.expireDate);
@@ -69,7 +76,7 @@ app.post('/add', async (req, res) => {
     catch (e){
         res.redirect('/');
         console.log(e.message);
-    }
+    }  
 });
 
 app.post('/del/:shortURL', async (req, res) => {
