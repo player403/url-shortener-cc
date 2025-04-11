@@ -13,7 +13,8 @@ if(process.env.SURL_DATA_HANDLER === 'PostgreSQL'){
         password: process.env.SURL_POSTGRESQL_PASSWORD, 
         host: process.env.SURL_POSTGRESQL_HOST, 
         port: process.env.SURL_POSTGRESQL_PORT, 
-        database: 'short_url_db'});
+        database: 'short_url_db'}, 
+        process.env.SURL_URL_LENGTH);
     await client.init();
 }
     
