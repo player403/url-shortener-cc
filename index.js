@@ -22,7 +22,7 @@ const port = 8080;
 var lastExpireCheck = new Date();
 
 app.use(express.urlencoded({'extended': true}));
-app.use(express.static('static'));
+app.use(express.static('public'));
 
 
 app.get('/', (req, res) => {
@@ -36,7 +36,7 @@ app.get('/view/:shortURL', async (req, res) => {
             await client.deleteEntryByShortURL(entry.url);
             throw Error(`Expired: Deleting entry ${entry.shortURL}`);
         }
-        res.render('view.ejs', {entry: entry});
+        res.render('view.ejs', {entry: entry, domain: process.env.SURL_DOMAIN, port: process.env.SURL_PORT});
     }catch (e){
         console.log(e.message);
         res.sendStatus(404);
@@ -86,7 +86,7 @@ app.post('/del/:shortURL', async (req, res) => {
 });
 
 
-app.listen(port, (err) => {
+app.listen(process.env.SURL_PORT, (err) => {
     if (err)
         console.log(err.message);
     else
