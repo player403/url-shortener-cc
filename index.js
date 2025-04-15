@@ -13,7 +13,8 @@ if(process.env.SURL_DATA_HANDLER === 'PostgreSQL'){
         password: process.env.SURL_POSTGRESQL_PASSWORD, 
         host: process.env.SURL_POSTGRESQL_HOST, 
         port: process.env.SURL_POSTGRESQL_PORT, 
-        database: 'url_shortener_db'});
+        database: 'short_url_db'}, 
+        process.env.SURL_URL_LENGTH);
     await client.init();
 }
     
@@ -34,7 +35,7 @@ app.get('/view/:shortURL', async (req, res) => {
         const entry = await client.getEntryByShortURL(req.params.shortURL);
         if(entry.expireDate < new Date()){
             await client.deleteEntryByShortURL(entry.url);
-            throw Error(`Expired: Deleting entry ${entry.shortURL}`);
+            throw Error(`Expired: Deleting entry ${entry.shortURLKey}`);
         }
         res.render('view.ejs', {entry: entry, domain: process.env.SURL_DOMAIN, port: process.env.SURL_PORT});
     }catch (e){
@@ -50,7 +51,7 @@ app.get('/:shortURL', async (req, res) => {
             res.sendStatus(404);
         if(entry.expireDate < new Date()){
             await client.deleteEntryByShortURL(entry.url);
-            throw Error(`Expired: Deleting entry ${entry.shortURL}`);
+            throw Error(`Expired: Deleting entry ${entry.shortURLKey}`);
         }
         res.redirect(entry.url);
         console.log(`Redirecting ${req.params.shortURL} to ${entry.url}`);
@@ -70,8 +71,8 @@ app.post('/add', async (req, res) => {
     try{
         //TODO: Check if url (has http)
         const entry = await client.addShortURL(req.body.url, req.body.expireDate === '' ? null : req.body.expireDate);
-        res.redirect(`view/${entry.shortURL}`);
-        console.log(`Created: ${entry.shortURL} to ${entry.url}`);
+        res.redirect(`view/${entry.shortURLKey}`);
+        console.log(`Created: ${entry.shortURLKey} to ${entry.url}`);
     }
     catch (e){
         res.redirect('/');
