@@ -2,7 +2,6 @@
 This is a WIP of a URL shortener webservice that manages references to other URLs.
 
 ## TODO
-- UI
 - Store volatile data into separate file.
 - Clean up
 
