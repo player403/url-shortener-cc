@@ -3,15 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
+    
+    <title>URL Shortener - <%= locals.entry.shortURL %></title>
 </head>
 <body>
-    <% if (locals.entry) { %>
-    <p><%= locals.entry.shortURL %></p>
-    <p><%= locals.entry.url %></p>
-    <p><%= locals.entry.expireDate %></p>
-    <% }else{ %>
-    <p>Entry not found.</p>
-    <% } %>
+    <div class="container">
+        <div class="card">
+            <% if (locals.entry) { %>
+                <div class="group">
+                    <p class="label"><span>Short URL</span></p>
+                    <!-- The text field -->
+                    <input class="field" id="shortURL" type="text" value="<%= locals.domain + ':' + locals.port + '/' + locals.entry.shortURL %>" id="shortURL" readonly>
+                    <button onclick="copy('shortURL')">Copy</button>
+                </div>
+                <div class="group">
+                    <p class="label"><span>Long URL</span></p>
+                    <input class="field" id="url" type="text" value="<%= locals.entry.url %>" id="shortURL" readonly>
+                    <button onclick="copy('url')">Copy</button>
+                </div>
+                <div class="group">
+                    <p class="label"><span>Expire Date</span></p>
+                    <p class="value"><span><%= locals.entry.expireDate %></span></p>
+                </div>
+                <% }else{ %>
+                <div class="group">
+                    <p class="value"><span>Entry not found.</span></p>
+                </div>
+                <% } %>
+        </div>
+    </div>
+    <script src="/index.js"></script>
 </body>
 </html>

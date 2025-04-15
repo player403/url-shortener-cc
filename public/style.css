@@ -1,0 +1,74 @@
+body {
+    background-color: rgb(58, 118, 164);
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container .card {
+    width: 450px;
+    /* height: 200px; */
+    border: 2px solid rgb(36, 78, 193);
+    border-radius: 10px;
+    background-color: rgb(162, 214, 241);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 15px 15px;
+}
+
+.group{
+    margin-bottom: 15px;
+}
+
+.group label, .group .label{
+    display: block;
+    margin-bottom: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: rgb(8, 63, 92);
+}
+.group input, .group .value{
+    display: block;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    border: 0px;
+    padding: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    font-weight: 550;
+}
+.group .field{
+    display:inline;
+    border: 0px;
+}
+
+.group button{
+    background-color: rgb(75, 181, 238);
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 0px;
+    padding: 10px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    font-weight: 550;
+}
+
+.group .submit{
+    background-color: rgb(75, 181, 238);
+    border: 0px;
+    border-radius: 10px;
+    
+    padding: 10px 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    width: 100%;
+    color: rgb(8, 63, 92);
+}
+
